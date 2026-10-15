@@ -202,6 +202,80 @@ public final class ItemBuilder {
         return this;
     }
 
+    /**
+     * Sets native max stack size (1 to 99) in Minecraft 1.20.5+ / 1.21.4.
+     */
+    @NotNull
+    public ItemBuilder maxStackSize(int size) {
+        if (this.meta != null) {
+            this.meta.setMaxStackSize(size);
+        }
+        return this;
+    }
+
+    /**
+     * Makes item immune to fire and lava damage in Minecraft 1.20.5+ / 1.21.4.
+     */
+    @NotNull
+    public ItemBuilder fireResistant(boolean fireResistant) {
+        if (this.meta != null) {
+            this.meta.setFireResistant(fireResistant);
+        }
+        return this;
+    }
+
+    /**
+     * Hides all vanilla item tooltips.
+     */
+    @NotNull
+    public ItemBuilder hideTooltip(boolean hideTooltip) {
+        if (this.meta != null) {
+            this.meta.setHideTooltip(hideTooltip);
+        }
+        return this;
+    }
+
+    /**
+     * Overrides item glint (shiny enchantment sheen).
+     */
+    @NotNull
+    public ItemBuilder glintOverride(@Nullable Boolean glint) {
+        if (this.meta != null) {
+            this.meta.setEnchantmentGlintOverride(glint);
+        }
+        return this;
+    }
+
+    /**
+     * Configures modern 1.21+ edible food components.
+     */
+    @NotNull
+    public ItemBuilder food(@NotNull Consumer<io.github.croxln.toolkit.component.ItemComponentBuilder.FoodModifier> consumer) {
+        if (this.meta != null) {
+            org.bukkit.inventory.meta.components.FoodComponent fc = this.meta.getFood();
+            io.github.croxln.toolkit.component.ItemComponentBuilder.FoodModifier modifier =
+                    new io.github.croxln.toolkit.component.ItemComponentBuilder.FoodModifier(fc);
+            consumer.accept(modifier);
+            this.meta.setFood(fc);
+        }
+        return this;
+    }
+
+    /**
+     * Configures modern 1.21+ equippable components (wearable in any armor slot).
+     */
+    @NotNull
+    public ItemBuilder equippable(@NotNull Consumer<io.github.croxln.toolkit.component.ItemComponentBuilder.EquippableModifier> consumer) {
+        if (this.meta != null) {
+            org.bukkit.inventory.meta.components.EquippableComponent ec = this.meta.getEquippable();
+            io.github.croxln.toolkit.component.ItemComponentBuilder.EquippableModifier modifier =
+                    new io.github.croxln.toolkit.component.ItemComponentBuilder.EquippableModifier(ec);
+            consumer.accept(modifier);
+            this.meta.setEquippable(ec);
+        }
+        return this;
+    }
+
     @NotNull
     public ItemBuilder applyMeta(@NotNull Consumer<ItemMeta> consumer) {
         if (this.meta != null) {
